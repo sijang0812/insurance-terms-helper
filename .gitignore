@@ -1,0 +1,27 @@
+# --- Backend (Gradle/Java) ---
+backend/**/build/
+backend/.gradle/
+backend/**/.gradle/
+backend/**/bin/
+*.class
+*.jar
+!gradle-wrapper.jar
+
+# --- Frontend (Node/Vite) ---
+frontend/**/node_modules/
+frontend/**/dist/
+frontend/**/.vite/
+
+# --- IDE ---
+.idea/
+*.iml
+.vscode/
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+
+# --- 환경변수 / 시크릿 (LLM API 키 등 - 절대 커밋 금지) ---
+.env
+.env.local
+**/application-local.yml

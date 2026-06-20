@@ -1,0 +1,36 @@
+plugins {
+    id 'java'
+    // 각 서비스 모듈에서 개별적으로 적용한다 (common 모듈은 적용하지 않음 - 실행 가능한 앱이 아니므로)
+    id 'org.springframework.boot' version '4.0.6' apply false
+}
+
+allprojects {
+    group = 'com.iht'
+    version = '0.0.1-SNAPSHOT'
+
+    repositories {
+        mavenCentral()
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+
+    java {
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
+    }
+
+    dependencies {
+        // Gradle의 BOM(Bill of Materials) 기능으로 Spring Boot 진영 라이브러리들의
+        // 버전을 한 곳에서 관리한다. (io.spring.dependency-management 플러그인 없이도
+        // Gradle 자체 기능만으로 충분하다)
+        implementation platform("org.springframework.boot:spring-boot-dependencies:4.0.6")
+
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    }
+
+    tasks.withType(Test) {
+        useJUnitPlatform()
+    }
+}

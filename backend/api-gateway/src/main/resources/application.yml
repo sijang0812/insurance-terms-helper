@@ -1,0 +1,19 @@
+# api-gateway 설정
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  servlet:
+    multipart:
+      # 게이트웨이를 거쳐가는 PDF 업로드도 document-service와 같은 용량 제한을 둔다.
+      max-file-size: 20MB
+      max-request-size: 20MB
+
+# 라우팅 대상 서비스 URL
+services:
+  document-service:
+    url: http://localhost:8081
+  chat-service:
+    url: http://localhost:8082

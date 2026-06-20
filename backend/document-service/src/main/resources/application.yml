@@ -1,0 +1,17 @@
+# document-service 설정
+server:
+  port: 8081
+
+spring:
+  application:
+    name: document-service
+  servlet:
+    multipart:
+      # PDF 업로드 용량 제한. DocumentServiceImpl의 MAX_FILE_SIZE와 같은 값으로 맞춰둔다.
+      max-file-size: 20MB
+      max-request-size: 20MB
+
+# 약관 PDF는 텍스트가 많아 로그가 길어질 수 있어 기본은 INFO로 둔다.
+logging:
+  level:
+    com.iht.document: INFO

@@ -1,0 +1,16 @@
+plugins {
+    id 'org.springframework.boot'
+}
+
+dependencies {
+    implementation project(':common')
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // 다음 단계(실제 Claude/OpenAI 연동)에서 HTTP 클라이언트가 추가로 필요해지면
+    // 여기에 의존성을 더한다. 지금은 spring-boot-starter-web에 포함된
+    // RestClient만으로 충분하다.
+}
+
+bootJar {
+    archiveFileName = 'llm-gateway-service.jar'
+}

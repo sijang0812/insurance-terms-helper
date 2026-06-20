@@ -1,0 +1,10 @@
+// common 모듈은 의도적으로 Spring 의존성을 두지 않는다.
+// 응답 포맷(ApiResponse), 에러 코드, 예외, 서비스 간 공유 DTO 등
+// "순수 자바로만 표현 가능한 것들"만 담아서 어떤 프레임워크 변경에도 흔들리지 않게 한다.
+// 루트 build.gradle의 subprojects 블록에서 java 플러그인과 JDK 버전이 이미 적용되어 있다.
+
+dependencies {
+    // 현재는 외부 의존성이 필요 없음.
+    // 추후 Bean Validation(@NotBlank 등)을 DTO에 적용하고 싶어지면 아래 의존성을 추가한다.
+    // implementation 'jakarta.validation:jakarta.validation-api'
+}

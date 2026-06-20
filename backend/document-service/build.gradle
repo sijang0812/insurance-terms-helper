@@ -1,0 +1,15 @@
+plugins {
+    id 'org.springframework.boot'
+}
+
+dependencies {
+    implementation project(':common')
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // PDF 텍스트 추출용 라이브러리
+    implementation 'org.apache.pdfbox:pdfbox:3.0.7'
+}
+
+bootJar {
+    archiveFileName = 'document-service.jar'
+}
