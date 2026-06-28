@@ -8,6 +8,11 @@ dependencies {
 
     // PDF 텍스트 추출용 라이브러리
     implementation 'org.apache.pdfbox:pdfbox:3.0.7'
+
+    // Neon(PostgreSQL) + pgvector 연동용
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    runtimeOnly 'org.postgresql:postgresql'
+    implementation 'com.pgvector:pgvector:0.1.6'
 }
 
 bootJar {

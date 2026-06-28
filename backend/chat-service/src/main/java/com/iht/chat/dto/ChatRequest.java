@@ -1,14 +1,21 @@
 package com.iht.chat.dto;
 
+import com.iht.common.dto.ChatTurn;
+
+import java.util.List;
+
 /**
  * 프론트엔드(Vue.js)가 채팅 질문을 보낼 때 사용하는 요청 DTO.
  *
  * documentId : 질문 대상이 되는 문서 ID (업로드 시 발급받은 값)
- * question   : 사용자가 입력한 자연어 질문
+ * question   : 사용자가 입력한 자연어 질문 (이번 turn)
  * provider   : 사용할 LLM. "claude" 또는 "openai". null이거나 빈 값이면 기본값(claude)을 사용한다.
+ * history    : 이전까지의 대화 turn 목록. 프론트엔드가 화면에 표시 중인 메시지 목록을
+ *              그대로 변환해서 보낸다. 첫 질문이면 빈 배열 또는 null이 올 수 있다.
  */
 public record ChatRequest(
         String documentId,
         String question,
-        String provider
+        String provider,
+        List<ChatTurn> history
 ) {}

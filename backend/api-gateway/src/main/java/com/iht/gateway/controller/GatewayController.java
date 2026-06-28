@@ -7,9 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StreamUtils;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -52,31 +50,37 @@ public class GatewayController {
 
     /**
      * PDF 업로드 요청을 document-service로 그대로 전달한다.
-     * IN  : file - 사용자가 업로드한 PDF 파일 (multipart/form-data, "file" 파트)
+     * IN  : file     - 사용자가 업로드한 PDF 파일 (multipart/form-data, "file" 파트)
+     *       uploadId - 진행률 추적용 식별자 (선택 사항, 없으면 빈 문자열)
      * OUT : document-service가 응답한 JSON 본문을 그대로 전달 (상태 코드 포함)
      */
     @PostMapping(value = "/api/documents", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> uploadDocument(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> uploadDocument(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam(value = "uploadId", required = false, defaultValue = "") String uploadId) {
         MultiValueMap<String, Object> parts = new LinkedMultiValueMap<>();
         Resource fileResource = file.getResource();
         parts.add("file", fileResource);
 
+        String uri = uploadId.isBlank() ? "/api/documents" : "/api/documents?uploadId=" + uploadId;
         return documentServiceClient.post()
-                .uri("/api/documents")
+                .uri(uri)
                 .contentType(MediaType.MULTIPART_FORM_DATA)
                 .body(parts)
                 .exchange(this::passThrough);
     }
 
     /**
-     * 문서 전체 텍스트 조회 요청을 document-service로 전달한다. (디버깅/관리 목적)
-     * IN  : documentId - 경로 변수로 전달되는 문서 ID
+     * 업로드 진행 상황 폴링 요청을 document-service로 그대로 전달한다.
+     * IN  : body - {"uploadId": "..."} JSON 요청 본문
      * OUT : document-service가 응답한 JSON 본문을 그대로 전달
      */
-    @GetMapping("/api/documents/{documentId}")
-    public ResponseEntity<String> getDocument(@PathVariable String documentId) {
-        return documentServiceClient.get()
-                .uri("/api/documents/{id}", documentId)
+    @PostMapping(value = "/api/documents/upload-progress", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getUploadProgress(@RequestBody String body) {
+        return documentServiceClient.post()
+                .uri("/api/documents/upload-progress")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(body)
                 .exchange(this::passThrough);
     }
 
@@ -115,7 +119,7 @@ public class GatewayController {
      */
     private ResponseEntity<String> passThrough(
             org.springframework.http.HttpRequest request,
-            org.springframework.web.client.RestClient.ConvertibleClientHttpResponse response) throws IOException {
+            org.springframework.web.client.RestClient.RequestHeadersSpec.ConvertibleClientHttpResponse response) throws IOException {
         String body = StreamUtils.copyToString(response.getBody(), StandardCharsets.UTF_8);
         MediaType contentType = response.getHeaders().getContentType();
 

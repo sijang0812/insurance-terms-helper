@@ -6,11 +6,15 @@ spring:
   application:
     name: llm-gateway-service
 
-# [다음 단계에서 채울 예정]
 # Anthropic / OpenAI API 키는 절대 코드나 git에 직접 커밋하지 않는다.
-# 환경변수(ANTHROPIC_API_KEY, OPENAI_API_KEY)로 주입받도록 설계해둔다.
-# llm:
-#   claude:
-#     api-key: ${ANTHROPIC_API_KEY}
-#   openai:
-#     api-key: ${OPENAI_API_KEY}
+# 환경변수(ANTHROPIC_API_KEY, OPENAI_API_KEY)로 주입받는다.
+# 로컬에서는 IntelliJ Run/Debug Configuration의 Environment variables에 등록해서 사용한다.
+# 값이 없으면 빈 문자열로 채워지고, 호출 시점에 ClaudeAdapter/OpenAiAdapter가
+# "키가 없다"는 명확한 에러(LLM_API_KEY_MISSING)를 던진다.
+llm:
+  claude:
+    api-key: ${ANTHROPIC_API_KEY:}
+    model: claude-sonnet-4-6
+  openai:
+    api-key: ${OPENAI_API_KEY:}
+    model: gpt-4o-mini

@@ -19,7 +19,11 @@ public enum ErrorCode {
 
     // LLM(llm-gateway-service) 관련
     LLM_PROVIDER_NOT_SUPPORTED("LLM_400", "지원하지 않는 LLM Provider입니다.", 400),
+    LLM_API_KEY_MISSING("LLM_500", "LLM API 키가 설정되지 않았습니다. 환경변수를 확인해주세요.", 500),
     LLM_CALL_FAILED("LLM_502", "LLM 호출 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.", 502),
+
+    // 채팅(chat-service) 관련
+    QUESTION_TOO_LONG("CHAT_400", "질문이 너무 깁니다. 220바이트(한국어 약 70자) 이내로 입력해주세요.", 400),
 
     // 공통
     INTERNAL_SERVER_ERROR("COMMON_500", "서버 내부 오류가 발생했습니다.", 500);
