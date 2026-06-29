@@ -1,6 +1,6 @@
 # document-service 설정
 server:
-  port: 8081
+  port: ${PORT:8081}
 
 spring:
   application:
@@ -24,10 +24,10 @@ spring:
       # 외부 DB(Neon)는 기본적으로 schema.sql을 자동 실행하지 않으므로 always로 켜준다.
       mode: always
 
-# llm-gateway-service 호출용 (임베딩 API)
+# llm-gateway-service 호출용 (임베딩 API). 운영 환경에서는 환경변수로 주입한다.
 services:
   llm-gateway-service:
-    url: http://localhost:8083
+    url: ${LLM_GATEWAY_URL:http://localhost:8083}
 
 # 약관 PDF는 텍스트가 많아 로그가 길어질 수 있어 기본은 INFO로 둔다.
 logging:
