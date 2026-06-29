@@ -7,6 +7,7 @@ import com.iht.document.dto.DocumentUploadResponse;
 import com.iht.document.service.DocumentService;
 import com.iht.document.store.UploadProgressStore;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
