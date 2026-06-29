@@ -1,0 +1,9 @@
+FROM gradle:8-jdk21 AS build
+WORKDIR /app
+COPY . .
+RUN gradle :llm-gateway-service:bootJar -x test --no-daemon
+
+FROM eclipse-temurin:21-jre-alpine
+WORKDIR /app
+COPY --from=build /app/llm-gateway-service/build/libs/llm-gateway-service.jar app.jar
+ENTRYPOINT ["java", "-XX:+UseContainerSupport", "-jar", "app.jar"]

@@ -1,0 +1,9 @@
+FROM gradle:8-jdk21 AS build
+WORKDIR /app
+COPY . .
+RUN gradle :api-gateway:bootJar -x test --no-daemon
+
+FROM eclipse-temurin:21-jre-alpine
+WORKDIR /app
+COPY --from=build /app/api-gateway/build/libs/api-gateway.jar app.jar
+ENTRYPOINT ["java", "-XX:+UseContainerSupport", "-jar", "app.jar"]
