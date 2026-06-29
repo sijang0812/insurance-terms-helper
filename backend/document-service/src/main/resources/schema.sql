@@ -10,7 +10,9 @@ CREATE TABLE IF NOT EXISTS documents (
     file_name TEXT NOT NULL,
     page_count INT NOT NULL,
     char_count INT NOT NULL,
-    uploaded_at TIMESTAMP NOT NULL
+    uploaded_at TIMESTAMP NOT NULL,
+    file_size BIGINT NOT NULL DEFAULT 0,
+    file_hash TEXT
 );
 
 -- 문서를 잘게 쪼갠 청크 + 각 청크의 임베딩 벡터.
