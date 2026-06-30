@@ -1,6 +1,6 @@
 # api-gateway 설정
 server:
-  port: 8080
+  port: ${PORT:8080}
 
 spring:
   application:
@@ -11,9 +11,14 @@ spring:
       max-file-size: 20MB
       max-request-size: 20MB
 
-# 라우팅 대상 서비스 URL
+# 라우팅 대상 서비스 URL. 운영 환경에서는 환경변수로 주입한다.
 services:
   document-service:
-    url: http://localhost:8081
+    url: ${DOCUMENT_SERVICE_URL:http://localhost:8081}
   chat-service:
-    url: http://localhost:8082
+    url: ${CHAT_SERVICE_URL:http://localhost:8082}
+
+# CORS 허용 오리진. 쉼표로 여러 개 지정 가능.
+# 예) http://localhost:5173,https://yourapp.vercel.app
+cors:
+  allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173}
