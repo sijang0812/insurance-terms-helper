@@ -10,7 +10,7 @@ import axios from 'axios'
  * 지금은 .env 파일 없이 로컬 개발 기준 값으로 하드코딩되어 있다.
  */
 const apiClient = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080',
   timeout: 30000, // LLM 응답은 시간이 걸릴 수 있어 넉넉하게 30초로 설정
 })
 
