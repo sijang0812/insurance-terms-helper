@@ -37,7 +37,7 @@ export const useChatStore = defineStore('chat', {
       this.sending = true
 
       try {
-        const result = await sendChatMessage(documentId, question, history)
+        const result = await sendChatMessage(documentId, question, history, 'openai')
         console.log('[RAG] 선택된 청크 id:', result.chunkIds)
         const target = this.messages.find((m) => m.id === pendingId)
         target.text = result.answer
