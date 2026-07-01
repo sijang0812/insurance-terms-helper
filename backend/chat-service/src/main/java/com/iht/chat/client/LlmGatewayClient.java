@@ -81,6 +81,7 @@ public class LlmGatewayClient {
             }
             return response.data().answer();
         } catch (RestClientException e) {
+            log.error("[ask] llm-gateway 호출 실패 url={} error={}", restClient, e.getMessage(), e);
             throw new BusinessException(ErrorCode.LLM_CALL_FAILED);
         }
     }
